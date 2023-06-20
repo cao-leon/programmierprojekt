@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
+// @author Leon Cao Amir Naderi
 public class MagicAdventureApp {
 
   public static final String SAVE_FILE_NAME = "save";
