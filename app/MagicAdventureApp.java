@@ -36,6 +36,17 @@ public class MagicAdventureApp {
     System.out.println("You're in the main menu");
     System.out.println("What do you want to do next?");
     System.out.println("(1) Start new game");
+
+    if (hasRunningGame()) {
+      System.out.println("(2) resume game");
+      System.out.println("(4) Save game");
+      System.out.println("(5) Delete game");
+    }
+
+    if (hasSavedGame()) {
+      System.out.println("(3) Load game");
+    }
+
     System.out.println("(6) Quit");
     System.out.println("");
     System.out.println("Please choose a number between 1 and 6");
@@ -45,28 +56,42 @@ public class MagicAdventureApp {
     Scanner scanner = new Scanner(System.in);
     String userInput = scanner.nextLine();
     return userInput;
+
   }
 
   private void handleUserInput(String input) {
     switch (input) {
-      case "1":
-        this.startNewGame();
-        break;
-      case "2":
-        break;
-      //...
-      case "6":
-        break;
-      default:
-        System.out.println("Invalid input. Please choose a correct number between 1 and 6");
-        break;
+        case "1":
+            startNewGame();
+            break;
+        case "2":
+            continueGame();
+            break;
+        case "3":
+            continueGame();
+            break;
+        case "4":
+            continueGame();
+            break;
+        case "5":
+            deleteGame();
+            break;
+        case "6":
+            gameRunning = false;
+            System.out.println("This game will end now.");
+            break;
+        default:
+            System.out.println("Invalid input. Please choose a correct number between 1 and 6");
+            break;
     }
-  }
+}
 
   private void startNewGame() {
-    System.out.println("Method not implemented yet.");
-  }
-
+    System.out.println("New Game started.");
+    Magician magician = new Magician();
+    MagicGame game = new MagicGame(magician); 
+    game.run(); 
+}
 
   private void continueGame() {
     this.game.run();
