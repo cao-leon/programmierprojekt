@@ -65,7 +65,7 @@ public class MagicAdventureApp {
         startNewGame();
         break;
       case "2":
-A        if (hasRunningGame()) {
+        if (hasRunningGame()) {
           continueGame();
         } else {
           System.out.println("There is no running game.");
