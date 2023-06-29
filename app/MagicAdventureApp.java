@@ -61,30 +61,46 @@ public class MagicAdventureApp {
 
   private void handleUserInput(String input) {
     switch (input) {
-        case "1":
-            startNewGame();
-            break;
-        case "2":
-            continueGame();
-            break;
-        case "3":
-            continueGame();
-            break;
-        case "4":
-            continueGame();
-            break;
-        case "5":
-            deleteGame();
-            break;
-        case "6":
-            gameRunning = false;
-            System.out.println("This game will end now.");
-            break;
-        default:
-            System.out.println("Invalid input. Please choose a correct number between 1 and 6");
-            break;
+      case "1":
+        startNewGame();
+        break;
+      case "2":
+A        if (hasRunningGame()) {
+          continueGame();
+        } else {
+          System.out.println("There is no running game.");
+        }
+        break;
+      case "3":
+        if (hasSavedGame()) {
+          loadGame();
+        } else {
+          System.out.println("There is no saved game.");
+        }
+        break;
+      case "4":
+        if (hasRunningGame()) {
+          saveGame();
+        } else {
+          System.out.println("There is no running game.");
+        }
+        break;
+      case "5":
+        if (hasSavedGame()) {
+          deleteGame();
+        } else {
+          System.out.println("There is no saved game.");
+        }
+        break;
+      case "6":
+        gameRunning = false;
+        System.out.println("This game will end now.");
+        break;
+      default:
+        System.out.println("Invalid input. Please choose a correct number between 1 and 6");
+        break;
     }
-}
+  }
 
   private void startNewGame() {
     System.out.println("New Game started.");
