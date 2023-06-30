@@ -3,18 +3,17 @@ package app;
 import model.Magician;
 
 public class MagicGame {
+    private final Magician player;
 
-  private final Magician magician;
+    public MagicGame(Magician player) {
+        this.player = player;
+    }
 
-  public MagicGame(Magician magician) {
-    this.magician = magician;
-  }
+    public void run() {
+        System.out.println("The game has started. Or not?");
+    }
 
-  public void run(){
-    System.out.println("The game has started. Or not?");
-  }
-
-  public Magician getMagician() {
-    return magician;
-  }
+    public Magician getPlayer() {
+        return player;
+    }
 }
