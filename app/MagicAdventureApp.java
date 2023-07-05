@@ -1,7 +1,5 @@
 package app;
 
-import static java.util.Objects.nonNull;
-
 import model.Magician;
 
 import java.io.File;
@@ -17,6 +15,7 @@ public class MagicAdventureApp {
   public static final String SAVE_FILE_NAME = "save";
   private MagicGame game;
   private boolean gameRunning = true;
+  private Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) {
     System.out.println("Welcome to the Magic Adventure game");
@@ -24,7 +23,7 @@ public class MagicAdventureApp {
 
     MagicAdventureApp app = new MagicAdventureApp();
 
-    while (true) {
+    while (app.gameRunning) {
       app.showMainMenu();
       String choice = app.readUserInput();
       app.handleUserInput(choice);
@@ -53,10 +52,9 @@ public class MagicAdventureApp {
   }
 
   private String readUserInput() {
-    Scanner scanner = new Scanner(System.in);
+
     String userInput = scanner.nextLine();
     return userInput;
-
   }
 
   private void handleUserInput(String input) {
@@ -105,9 +103,9 @@ public class MagicAdventureApp {
   private void startNewGame() {
     System.out.println("New Game started.");
     Magician magician = new Magician();
-    MagicGame game = new MagicGame(magician); 
-    game.run(); 
-}
+    MagicGame game = new MagicGame(magician);
+    game.run();
+  }
 
   private void continueGame() {
     this.game.run();
@@ -121,8 +119,8 @@ public class MagicAdventureApp {
 
   private void saveGame() {
     try (FileOutputStream fos = new FileOutputStream(SAVE_FILE_NAME);
-         ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-      oos.writeObject(game.getMagician());
+        ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+      oos.writeObject(game.getPlayer());
       oos.flush();
     } catch (Exception ex) {
       System.err.println("Something went wrong!" + ex);
@@ -134,7 +132,7 @@ public class MagicAdventureApp {
 
   private void loadGame() {
     try (FileInputStream fis = new FileInputStream(SAVE_FILE_NAME);
-         ObjectInputStream ois = new ObjectInputStream(fis)) {
+        ObjectInputStream ois = new ObjectInputStream(fis)) {
       this.game = new MagicGame((Magician) ois.readObject());
     } catch (Exception ex) {
       System.err.println("Something went wrong!" + ex);
@@ -142,12 +140,10 @@ public class MagicAdventureApp {
   }
 
   private Boolean hasRunningGame() {
-    return nonNull(game);
+    return game != null;
   }
 
   private Boolean hasSavedGame() {
     return new File(SAVE_FILE_NAME).exists();
   }
-
-
 }

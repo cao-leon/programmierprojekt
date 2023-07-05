@@ -5,12 +5,12 @@ public class StopWatch {
   private static long start;
   private static long end;
 
-  public static void start() {
+  public void start() {
     end = 0;
     start = System.currentTimeMillis();
   }
 
-  public static long stop() {
+  public long stop() {
     end = System.currentTimeMillis();
     return getDiff();
   }
@@ -21,5 +21,13 @@ public class StopWatch {
 
   public static boolean executedBefore(long millis) {
     return (end - start) < millis;
+  }
+
+  public long getElapsedTime() {
+    return end;
+  }
+
+  public boolean isWithin(long timeAllowed) {
+    return getElapsedTime() <= timeAllowed;
   }
 }
