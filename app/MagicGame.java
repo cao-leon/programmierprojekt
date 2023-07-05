@@ -10,8 +10,20 @@ public class MagicGame {
     }
 
     public void run() {
-        System.out.println("The game has started. Or not?");
+  System.out.println("The game has started.");
+
+  boolean gameEnded = false;
+  
+  while (!gameEnded) {
+    if (/* Bedingung für Spielende */) {
+      gameEnded = true;
     }
+  }
+  
+  System.out.println("The game has ended.");
+}
+
+
 
     public Magician getPlayer() {
         return player;
