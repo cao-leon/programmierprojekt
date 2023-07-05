@@ -64,12 +64,12 @@ public class Spell implements Serializable {
         System.out.println("Spell: " + incantation);
         System.out.println("Press enter when ready.");
         Scanner scanner = new Scanner(System.in);
-        scanner.nextLine(); 
+        scanner.nextLine();
         System.out.println("Enter the spell: ");
         String input = scanner.nextLine();
 
-        StopWatch stopWatch = new StopWatch(); 
-        stopWatch.start(); 
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         if (input.equals(incantation)) {
             long timeAllowed = (incantation.length() / (level + 1)) * 1000;
@@ -86,5 +86,10 @@ public class Spell implements Serializable {
         System.out.println("Elapsed time: " + stopWatch.getElapsedTime() + " milliseconds.");
 
         scanner.close();
+    }
+
+    public int cast() {
+        train(); // Call the train() method to cast the spell
+        return damage; // Return the damage of the spell
     }
 }
