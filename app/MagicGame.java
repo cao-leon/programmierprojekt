@@ -4,6 +4,9 @@ import model.Magician;
 import model.Monster;
 import model.MasterWizard;
 import model.Spell;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MagicGame {
@@ -74,47 +77,61 @@ public class MagicGame {
   }
 
   private void startAdventure() {
-    int monsterLevel = player.getLevel() - 1 + (int) (Math.random() * 3); // Generiere ein Monster-Level zwischen Magician-Level-1 und Magician-Level+1
+    int monsterLevel = player.getLevel() + (int) (Math.random() * 3); // Generiere ein Monster-Level zwischen Magician-Level-1 und Magician-Level+1
     Monster monster = new Monster("Monster", monsterLevel);
 
 
     System.out.println("Encountered a level " + monsterLevel + " monster!");
 
-    // Kampflogik
+    // Battle logic
     while (true) {
-      System.out.println("Choose a spell to attack the monster:");
-      Spell spell = selectSpellToCast();
-      int damage = spell.cast();
+    System.out.println("Choose a spell to attack the monster:");
+    Spell spell = selectSpellToCast();
+    int damage = spell.cast();
 
-      monster.takeDamage(damage);
-      System.out.println("You dealt " + damage + " damage to the monster!");
+    monster.takeDamage(damage);
+    System.out.println("You dealt " + damage + " damage to the monster!");
 
-      if (monster.isDefeated()) {
+    if (monster.isDefeated()) {
         System.out.println("You defeated the monster!");
-        int expGained = monsterLevel;
+        int expGained = monster.getLevel();
         player.gainExperience(expGained);
         System.out.println("Gained " + expGained + " experience points.");
         break;
-      }
+    }
 
-      int monsterDamage = monster.attack();
-      player.takeDamage(monsterDamage);
-      System.out.println("The monster dealt " + monsterDamage + " damage to you.");
+    int monsterDamage = monster.getAttackDamage();
+    player.takeDamage(monsterDamage);
+    System.out.println("The monster dealt " + monsterDamage + " damage to you.");
 
-      if (player.isDefeated()) {
+    if (player.isDefeated()) {
         System.out.println("Game Over. You were defeated by the monster.");
         gameEnded = true;
         break;
-      }
+        }
     }
   }
 
   private Spell selectSpellToCast() {
-    // Hier können Sie die Logik zur Auswahl eines Spells implementieren
-    // Beispielsweise durch Anzeige der verfügbaren Spells und Benutzereingabe
-    // Rückgabe des ausgewählten Spells
-    return null; // Platzhalter, bitte ersetzen
-  }
+    List<Spell> availableSpells = new ArrayList<>();
+    availableSpells.add(new FireballSpell());
+    // Weitere Spells hinzufügen
+
+    // Zeige dem Benutzer die verfügbaren Spells und lass ihn einen auswählen
+    System.out.println("Available spells:");
+    for (int i = 0; i < availableSpells.size(); i++) {
+        System.out.println((i + 1) + ". " + availableSpells.get(i).getName());
+    }
+
+    // Benutzereingabe zur Auswahl des Spells
+    int selectedSpellIndex = getUserInput("Select a spell: ");
+    if (selectedSpellIndex >= 1 && selectedSpellIndex <= availableSpells.size()) {
+        return availableSpells.get(selectedSpellIndex - 1);
+    } else {
+        System.out.println("Invalid selection. No spell will be cast.");
+        return null;
+    }
+}
 
   private void learnNewSpell() {
     if (player.getLevel() > player.getKnownSpells().size()) {
