@@ -87,4 +87,14 @@ public class Magician implements Serializable {
       return sb.toString();
   }
   
+  public void train(Spell spell) {
+    System.out.println("Training " + spell.getName() + "...");
+    spell.train();
+
+    if (spell.getLevel() > 1) {
+        System.out.println(spell.getName() + " has been improved to Level " + spell.getLevel() + "!");
+    } else {
+        System.out.println(spell.getName() + " has been improved!");
+    }
+}
 }

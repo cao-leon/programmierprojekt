@@ -69,13 +69,11 @@ public class Spell implements Serializable {
         System.out.println("Press enter when ready.");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        System.out.println("Enter the spell: ");
-        String input = scanner.nextLine();
-
+        
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-
-        if (input.equals(incantation)) {
+    
+        if (incantation.equals("input")) {
             long timeAllowed = (incantation.length() / (level + 1)) * 1000;
             if (stopWatch.isWithin(timeAllowed)) {
                 System.out.println("Spell successfully casted!");
@@ -85,10 +83,10 @@ public class Spell implements Serializable {
         } else {
             System.out.println("Spell casting failed. Incorrect input.");
         }
-
+    
         stopWatch.stop(); // Stop the timer
         System.out.println("Elapsed time: " + stopWatch.getElapsedTime() + " milliseconds.");
-
+    
         scanner.close();
     }
 

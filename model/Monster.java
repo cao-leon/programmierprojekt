@@ -28,6 +28,16 @@ public class Monster {
     public int getAttackDamage() {
         return attackDamage;
     }
+
+    public void takeDamage(int damage) {
+        lifePoints -= damage;
+        
+    }
+
+    public boolean isDefeated() {
+        return lifePoints <= 0;
+    }
 }
+
 
 
