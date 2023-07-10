@@ -8,6 +8,13 @@ import model.Spell;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import Spells.ArcaneSpell;
+import Spells.DarknessSpell;
+import Spells.Fireball;
+import Spells.IceSpell;
+import Spells.ToxicSpell;
+
 import java.util.Random;
 
 public class MagicGame {
@@ -78,7 +85,14 @@ public class MagicGame {
     }
 
     private void startAdventure() {
-        int monsterLevel = player.getLevel() + (int) (Math.random() * 3); // Generate a monster level between Magician's level - 1 and Magician's level + 1
+        int levelDifference;
+        if (player.getLevel() == 1) {
+            levelDifference = (int) (Math.random() * 2) + 1; // Generate a value between 1 and 2
+        } else {
+            levelDifference = (int) (Math.random() * 3) - 1; // Generate a value between -1 and 2
+        }
+        int monsterLevel = Math.max(player.getLevel() + levelDifference, 1); // Ensure monster level is at least 1
+
         Monster monster = new Monster("Monster", monsterLevel);
 
         System.out.println("Encountered a level " + monsterLevel + " monster!");
@@ -94,9 +108,15 @@ public class MagicGame {
 
             if (monster.isDefeated()) {
                 System.out.println("You defeated the monster!");
-                int expGained = monster.getLevel();
+                int expGained = monsterLevel; // Gain experience equal to the defeated monster's level
                 player.gainExperience(expGained);
                 System.out.println("Gained " + expGained + " experience points.");
+
+                if (player.getLevel() >= 5) {
+                    System.out.println("Congratulations! You have reached Level 5 and won the game!");
+                    gameEnded = true;
+                }
+
                 break;
             }
 
@@ -115,7 +135,7 @@ public class MagicGame {
     private Spell selectSpellToCast() {
         List<Spell> availableSpells = new ArrayList<>();
         availableSpells.add(new DarknessSpell(player.getLevel()));
-        availableSpells.add(new ElectroschockSpell(player.getLevel()));
+        availableSpells.add(new ArcaneSpell(player.getLevel()));
         availableSpells.add(new Fireball(player.getLevel()));
         availableSpells.add(new IceSpell(player.getLevel()));
         availableSpells.add(new ToxicSpell(player.getLevel()));
@@ -132,25 +152,61 @@ public class MagicGame {
             System.out.println("You have learned a new spell: " + newSpell.getName());
         } else {
             System.out.println("You cannot learn a new spell at the moment.");
-        }
+}
+}
+
+private void improveSpell() {
+    List<Spell> knownSpells = player.getKnownSpells();
+
+    if (knownSpells.isEmpty()) {
+        System.out.println("You don't have any spells to improve.");
+        return;
     }
 
-    private void showStats() {
-        System.out.println(player);
+    System.out.println("Select a spell to improve:");
+    for (int i = 0; i < knownSpells.size(); i++) {
+        Spell spell = knownSpells.get(i);
+        System.out.println((i + 1) + ". " + spell.getName());
     }
 
-    private void takeRest() {
-        int currentExp = player.getExperience();
-        if (currentExp > 0) {
-            player.decreaseExperience(1);
-            player.increaseHealth(100);
-            System.out.println("You took a rest. Experience points decreased by 1, health increased by 100.");
+    int choice = Integer.parseInt(readUserInput());
+
+    if (choice >= 1 && choice <= knownSpells.size()) {
+        Spell selectedSpell = knownSpells.get(choice - 1);
+        if (selectedSpell.getLevel() < player.getLevel()) {
+            System.out.println("Training " + selectedSpell.getName() + "...");
+            player.train(selectedSpell);
+
+            if (selectedSpell.getLevel() > 1) {
+                System.out.println(selectedSpell.getName() + " has been improved to Level " + selectedSpell.getLevel() + "!");
+            } else {
+                System.out.println(selectedSpell.getName() + " has been improved!");
+            }
         } else {
-            System.out.println("You cannot take a rest. Experience points are already 0.");
+            System.out.println("You cannot improve the selected spell at the moment. The spell level cannot exceed your current level.");
         }
+    } else {
+        System.out.println("Invalid choice. Please select a valid spell number.");
     }
+}
 
-    public Magician getPlayer() {
-        return player;
+private void showStats() {
+    System.out.println(player);
+}
+
+private void takeRest() {
+    int currentExp = player.getExperience();
+    if (currentExp > 0) {
+        player.decreaseExperience(1);
+        player.increaseHealth(100);
+        System.out.println("You took a rest. Experience points decreased by 1, health increased by 100.");
+    } else {
+        System.out.println("You cannot take a rest. Experience points are already 0.");
     }
+}
+
+public Magician getPlayer() {
+    return player;
+}
+
 }
