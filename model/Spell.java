@@ -60,6 +60,10 @@ public class Spell implements Serializable {
         return name;
     }
 
+    public int getBaseValue() {
+        return damage;
+    }
+    
     public void train() {
         System.out.println("Spell: " + incantation);
         System.out.println("Press enter when ready.");
